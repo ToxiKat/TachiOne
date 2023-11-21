@@ -32,8 +32,10 @@ class _MangaInfoState extends State<MangaInfo> {
                 ),
               ),
             ];
-            for (String i in snapshot.data["genres"]) {
-              genresWidgets.add(BorderedText(text: i));
+            if (snapshot.data["genres"] != null) {
+              for (String i in snapshot.data["genres"]) {
+                genresWidgets.add(BorderedText(text: i));
+              }
             }
             String description = snapshot.data["description"]["en"] ?? "";
             return Scrollable(
@@ -79,9 +81,9 @@ class _MangaInfoState extends State<MangaInfo> {
   Future<Map?> _mangaInfo(String id) async {
     Map? out;
     print(
-        "Url : ${Uri.parse("https://api.consumet.org/manga/mangadex/info/${id}").toString()}");
+        "Url : ${Uri.parse("https://api.consumet.org/manga/mangadex/info/$id").toString()}");
     final response = await http
-        .get(Uri.parse("https://api.consumet.org/manga/mangadex/info/${id}"));
+        .get(Uri.parse("https://api.consumet.org/manga/mangadex/info/$id"));
     if (response.statusCode == 200) {
       Map data = json.decode(response.body);
       out = data;
